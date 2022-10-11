@@ -1,44 +1,47 @@
 // Initialize moment object
 const now = moment();
-var currentDaySchedule = {};
 
 // Print the current date
 var currentDate = moment().format("dddd, MMMM Do");
 $("#currentDay").html(currentDate);
 
-// Add businessHours to each time block element
-var printTimeBlock = (hour) => {
-  var businessHours = [9, 10, 11, 12, 1, 2, 3, 4, 5];
+$(document).ready(function () {
+  //saveBtn click listener for
+  $(".saveBtn").on("click", function (event) {
+    //define time and description variables
+    var text = $(this).siblings("textarea.description").val();
+    console.log(text);
+    var time = $(this).parent().attr("id");
+    console.log(time);
 
-  hour = now.format("h");
-
-  // time block container element
-  var timeBlockContainerEl = document.querySelector(".container");
-  console.log(timeBlockContainerEl);
-
-  //   loop through businessHours array and printTimeBlock
-  businessHours.forEach((element) => {
-    // create div for individual time block ROW
-    var timeBlockRowEl = document.createElement("div");
-    timeBlockRowEl.classList.add("row");
-    timeBlockContainerEl.append(timeBlockRowEl);
-
-    // create div for hour
-    var hourDivEl = document.createElement("div");
-    hourDivEl.classList = "col-sm-2 hour time-block";
-    hourDivEl.textContent = element;
-    timeBlockRowEl.append(hourDivEl);
-
-    // create div for task
-    var textAreaEl = document.createElement("textarea");
-    textAreaEl.classList = "col-sm-8 border-top description";
-    timeBlockRowEl.append(textAreaEl);
-
-    // Create button element
-    var buttonEl = document.createElement("button");
-    buttonEl.classList = "col-sm-2 saveBtn";
-    buttonEl.textContent = "Icon";
-    timeBlockRowEl.append(buttonEl);
+    //save to local storage
+    localStorage.setItem(text, time);
   });
-};
-printTimeBlock();
+
+  function timeTracker() {
+    var hour = moment().hours();
+    console.log("hour");
+    console.log(hour);
+
+    $(".time-block").each(function () {
+      var blockTime = parseInt($(this).attr("id").split("hour")[1]);
+      console.log("blockTime");
+      console.log(blockTime);
+
+      if (blockTime < hour) {
+        $(this).removeClass("future");
+        $(this).removeClass("present");
+        $(this).addClass("past");
+      } else if (blockTime === hour) {
+        $(this).removeClass("future");
+        $(this).addClass("present");
+        $(this).removeClass("past");
+      } else {
+        $(this).addClass("future");
+        $(this).removeClass("past");
+        $(this).removeClass("present");
+      }
+    });
+  }
+  timeTracker();
+});
