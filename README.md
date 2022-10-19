@@ -17,7 +17,7 @@ SO THAT I can manage my time effectively
 
 ## Usage
 
-Here's a link to the <a href="#">Day Scheduler</a> deployed application
+Here's a link to the <a href="https://joesen-dev.github.io/day-scheduler/">Day Scheduler</a> deployed application
 
 ## Technologies
 
